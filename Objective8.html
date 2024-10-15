@@ -1,0 +1,140 @@
+<html>
+  <head>
+    <title>Simple Calculator</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+      }
+      #slideshow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+      }
+      #slideshow img {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+      #slideshow img.active {
+        opacity: 1;
+      }
+      #calculator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        width: 300px;
+      }
+      h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+      input {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        margin: 10px;
+        padding: 15px 25px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        background-color: #f4a261;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #e76f51;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="slideshow">
+      <img src="https://wallpaperaccess.com/full/2165.jpg" class="active" />
+      <img src="https://wallpaperaccess.com/full/2120.jpg" />
+      <img src="https://wallpaperaccess.com/full/2109.jpg" />
+    </div>
+
+    <div id="calculator">
+      <h1>Simple Calculator</h1>
+      <input type="number" id="num1" placeholder="Enter first number" />
+      <input type="number" id="num2" placeholder="Enter second number" />
+      <select id="operation">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
+      <button onclick="performCalculation()">Calculate</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      let currentIndex = 0;
+      const images = document.querySelectorAll("#slideshow img");
+
+      function showImage(index) {
+        images.forEach((img, i) => {
+          img.classList.remove("active");
+          if (i === index) {
+            img.classList.add("active");
+          }
+        });
+      }
+
+      function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      }
+
+      function performCalculation() {
+        const num1 = parseFloat(document.getElementById("num1").value);
+        const num2 = parseFloat(document.getElementById("num2").value);
+        const operation = document.getElementById("operation").value;
+
+        let result;
+        switch (operation) {
+          case "+":
+            result = num1 + num2;
+            break;
+          case "-":
+            result = num1 - num2;
+            break;
+          case "*":
+            result = num1 * num2;
+            break;
+          case "/":
+            result = num2 !== 0 ? num1 / num2 : "Cannot divide by zero";
+            break;
+          default:
+            result = "Invalid operation";
+        }
+
+        document.getElementById("result").innerText = `Result: ${result}`;
+      }
+
+      setInterval(nextImage, 3000);
+    </script>
+  </body>
+</html>
